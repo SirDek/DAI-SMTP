@@ -1,0 +1,21 @@
+smtp rfc => wiki => choisir version => aller regarder manuel => les exemples/prototypes
+
+telnet smtp.heig-vd.ch(pour nous mock) 25
+EHLO randomstuff
+
+MAIL FROM: cedric.centeno@heig-vd.ch (ou n'importe quelle adresse)
+
+RCPT TO: (n'importe quelle adresse) (possible de le faire plusieurs fois la commande)
+
+DATA //(press enter)
+notre message:
+From: adresse auteur
+To: adresse recépteur 
+Cc: ...
+Subject: ...
+
+Contenu du message.
+.//(press enter)
+//(press enter)
+
+quit

@@ -1,0 +1,23 @@
+Question : Fonctionnement des groupes et personnes ?
+Une personne fait parti de plusieurs groupes ?
+
+
+https://www.rfc-editor.org/rfc/rfc5321.html
+- Check les annexes
+Le mock mock
+- mvn clean install
+- telnet localhost 2525
+
+
+Truc à faire :
+- faire des tests (avec le mock SMTP server)
+
+Proposition :
+- Système de fichiers
+	- Fichier détails (serv smtp, prot), config.properties : (existe  truc qui fait auto en java)
+	- Liste des victimes
+	- Liste des faux messages
+- Liste des classes :
+	- Lire les données de configurations
+	- Gestion des messages
+	- Protocole SMTP

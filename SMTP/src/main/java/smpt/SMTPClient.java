@@ -35,7 +35,7 @@ public class SMTPClient {
             line = in.readLine();
         }
 
-        out.write("MAIL FROM:");// + mail.sender);
+        out.write("MAIL FROM:");// + adresse d'envoi);
         out.flush();
 
         line = in.readLine();
@@ -43,6 +43,27 @@ public class SMTPClient {
             throw new IOException(ERROR_MSG + line);
         }
 
+        /*for (Mail reciever : mail.reciever) {
+            out.write("RCPT TO:");// + mail.sender);
+            out.flush();
+            line = in.readLine();
+            if (!line.startsWith("250")) {
+                throw new IOException(ERROR_MSG + line);
+            }
+        }*/
+
+        out.write("DATA");
+        out.flush();
+        if (line.startsWith("4") || line.startsWith("5")) {
+            throw new IOException(ERROR_MSG + line);
+        }
+
+        //out.write(//joke);
+        //out.write(".\r\n");
+        line = in.readLine();
+        if (!line.startsWith("250")) {
+            throw new IOException(ERROR_MSG + line);
+        }
 
     }
 

@@ -25,3 +25,5 @@ hs_err_pid*
 SMTP/.idea/
 
 SMTP/pom.xml
+
+.idea/

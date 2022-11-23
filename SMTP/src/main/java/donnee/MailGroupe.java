@@ -1,24 +1,29 @@
 package donnee;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MailGroupe {
-    private String receiver;
-    private ArrayList<String> destinataire;
+    private String sender;
+    private LinkedList<String> receivers;
 
     public MailGroupe() {
 
     }
-    public MailGroupe(String receiver, ArrayList<String> destinataire) {
-        this.receiver = receiver;
-        this.destinataire = destinataire;
+    public MailGroupe(String sender) {
+        this.sender = sender;
+        receivers = new LinkedList<>();
     }
 
-    public String getReceiver() {
-        return receiver;
+    public void addReceiver(String receiver) {
+        receivers.add(receiver);
     }
 
-    public ArrayList<String> getDestinataire() {
-        return destinataire;
+    public String getSender() {
+        return sender;
+    }
+
+    public LinkedList<String> getReceivers() {
+        return receivers;
     }
 }

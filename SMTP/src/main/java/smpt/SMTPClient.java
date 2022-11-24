@@ -1,18 +1,22 @@
 package smpt;
-import configuration.Config;
 import donnee.*;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SMTPClient {
-
     final static Logger LOG = Logger.getLogger(SMTPClient.class.getName());
 
-    public void send(Mail mail, Server server) {
+    Mail mail;
+    ServerInfo server;
+    public SMTPClient(Mail mail, ServerInfo server) {
+        this.mail = mail;
+        this.server = server;
+    }
+
+    public void send() {
 
         final String SMTPADDR = server.getHost();//mail.getaddr
         final int port = server.getPort(); //mail.getport

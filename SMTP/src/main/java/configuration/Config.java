@@ -13,10 +13,17 @@ public class Config {
 
     final static private String CONFIG_PATH = "config.properties";
     final static private Pattern ADDRESS_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-    public ServerInfo createServer() throws IOException {
+    final int NB_GROUPE;
+    private Properties prop;
+
+
+    Config() throws IOException {
         InputStream input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
-        Properties prop = new Properties();
+        prop = new Properties();
         prop.load(input);
+        NB_GROUPE = Integer.parseInt(prop.getProperty("nbGroupe"));
+    }
+    public ServerInfo createServer() {
         return new ServerInfo(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
     }
 
@@ -25,17 +32,19 @@ public class Config {
         LinkedList<String> fakeMails = DataReader.readFakeMail();
         LinkedList<String> mailAdress = DataReader.readMailAdresse();
 
-        if (mailAdress.size() / 3 < fakeMails.size()) throw new IOException();
+        if (mailAdress.size() / 3 < NB_GROUPE) throw new IOException();
 
         checkAddressMail(mailAdress);
 
         final int NB_GROUPE = fakeMails.size();
         LinkedList<MailGroupe> mailGroupes = new LinkedList<>();
+
+        Collections.shuffle(fakeMails);
         Collections.shuffle(mailAdress);
 
         for(int i = 0; i  < mailAdress.size(); ++i) {
             if(i < NB_GROUPE) {
-                mailGroupes.add(new MailGroupe(mailAdress.get(i)));
+                mailGroupes.add(new MailGroupe(mailAdress.get(i % NB_GROUPE)));
             }
             else {
                 mailGroupes.get(i % NB_GROUPE).addReceiver(mailAdress.get(i));

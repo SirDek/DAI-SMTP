@@ -3,6 +3,7 @@ package configuration;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class DataReader {
 
@@ -13,7 +14,7 @@ public class DataReader {
     static ClassLoader classLoader = DataReader.class.getClassLoader();
 
     public static LinkedList<String> readMailAdresse() throws IOException {
-        FileReader file = new FileReader(classLoader.getResource(ADDRESS_PATH).getFile());
+        FileReader file = new FileReader(Objects.requireNonNull(classLoader.getResource(ADDRESS_PATH)).getFile());
         BufferedReader reader = new BufferedReader(file);
 
         LinkedList<String> mailAdresses = new LinkedList<>();
@@ -26,7 +27,7 @@ public class DataReader {
     }
 
     public static LinkedList<String> readFakeMail() throws IOException {
-        FileReader file = new FileReader(classLoader.getResource(FAKE_MAIL_PATH).getFile());
+        FileReader file = new FileReader(Objects.requireNonNull(classLoader.getResource(FAKE_MAIL_PATH)).getFile());
         BufferedReader reader = new BufferedReader(file);
 
         LinkedList<String> fakeMails = new LinkedList<>();
@@ -42,6 +43,7 @@ public class DataReader {
                 fakeMail.append(line).append(END_LINE);
             }
         }
+        fakeMails.add(fakeMail.toString());
         return fakeMails;
     }
 }

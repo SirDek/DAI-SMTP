@@ -1,6 +1,5 @@
 package donnee;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MailGroupe {

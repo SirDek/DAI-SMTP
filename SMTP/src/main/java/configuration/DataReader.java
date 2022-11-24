@@ -6,15 +6,14 @@ import java.util.List;
 
 public class DataReader {
 
-    final static private String adressePath = "adresse.txt";
-    final static private String fakeMailPath = "fakeMail.txt";
-
+    final static private String ADDRESS_PATH = "adresse.txt";
+    final static private String FAKE_MAIL_PATH = "fakeMail.txt";
     final static private String SEPARATOR = "#";
     final static private String END_LINE = "\r\n";
     static ClassLoader classLoader = DataReader.class.getClassLoader();
 
     public static LinkedList<String> readMailAdresse() throws IOException {
-        FileReader file = new FileReader(classLoader.getResource(adressePath).getFile());
+        FileReader file = new FileReader(classLoader.getResource(ADDRESS_PATH).getFile());
         BufferedReader reader = new BufferedReader(file);
 
         LinkedList<String> mailAdresses = new LinkedList<>();
@@ -27,7 +26,7 @@ public class DataReader {
     }
 
     public static LinkedList<String> readFakeMail() throws IOException {
-        FileReader file = new FileReader(classLoader.getResource(fakeMailPath).getFile());
+        FileReader file = new FileReader(classLoader.getResource(FAKE_MAIL_PATH).getFile());
         BufferedReader reader = new BufferedReader(file);
 
         LinkedList<String> fakeMails = new LinkedList<>();

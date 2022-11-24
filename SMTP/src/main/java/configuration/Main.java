@@ -8,7 +8,7 @@ public class Main {
 
         Config config = new Config();
 
-        Server serv = config.createServer();
+        ServerInfo serv = config.createServer();
         System.out.println(serv.getPort() + " " + serv.getHost());
         LinkedList<Mail> allMails = config.getAllMail();
         for (Mail mail : allMails) {

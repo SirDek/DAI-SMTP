@@ -1,11 +1,11 @@
 package donnee;
 
-public class Server {
+public class ServerInfo {
 
     final String HOST;
     final int PORT;
 
-    public Server(String host, int port) {
+    public ServerInfo(String host, int port) {
         HOST = host;
         PORT = port;
     }

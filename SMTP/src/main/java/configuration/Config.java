@@ -6,15 +6,18 @@ import java.io.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Config {
 
     final static private String CONFIG_PATH = "config.properties";
-    public Server createServer() throws IOException {
+    final static private Pattern ADDRESS_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    public ServerInfo createServer() throws IOException {
         InputStream input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
         Properties prop = new Properties();
         prop.load(input);
-        return new Server(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
+        return new ServerInfo(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
     }
 
     public LinkedList<Mail> getAllMail() throws IOException {
@@ -23,6 +26,8 @@ public class Config {
         LinkedList<String> mailAdress = DataReader.readMailAdresse();
 
         if (mailAdress.size() / 3 < fakeMails.size()) throw new IOException();
+
+        checkAddressMail(mailAdress);
 
         final int NB_GROUPE = fakeMails.size();
         LinkedList<MailGroupe> mailGroupes = new LinkedList<>();
@@ -43,5 +48,13 @@ public class Config {
         }
 
         return mails;
+    }
+
+    public void checkAddressMail(LinkedList<String> mailaddress) throws IOException {
+
+        for(String address : mailaddress) {
+            Matcher matcher = ADDRESS_PATTERN.matcher(address);
+            if(!matcher.find()) throw new IOException();
+        }
     }
 }

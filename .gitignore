@@ -25,3 +25,7 @@ hs_err_pid*
 SMTP/.idea/
 
 .idea/
+
+.idea/
+
+*.iml

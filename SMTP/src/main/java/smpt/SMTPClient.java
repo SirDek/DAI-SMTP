@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Implémentation de la classe SMTPClient.
- * Cette classe a pour role d'envoyer les email "pranks" a un serveur SMTP (Mock server dans le cadre de ce laboratoire).
+ * La classe SMTPClient.
+ * Cette classe a pour role d'envoyer les email a un serveur SMTP
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 24.11.2022
+ * Date : 25.11.2022
  */
 public class SMTPClient {
     final static Logger LOG = Logger.getLogger(SMTPClient.class.getName());

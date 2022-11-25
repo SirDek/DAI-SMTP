@@ -114,13 +114,10 @@ public class SMTPClient {
                 out.write( reciever + " ");
             }
             out.write(END_LINE);
-            //out.write("From: " + mail.getSubject() + END_LINE);
             // Specification du format du plain text
             out.write("Content-Type: text/plain; charset=utf-8" + END_LINE);
-            // Retour a la ligne marquand la fin des entetes.
-            out.write(END_LINE);
 
-            // Envoi du texte contenant la prank.
+            // Envoi du texte contenant l'entete sujet ainsi que le contenu de la prank
             out.write(mail.getFakeMail());
             out.write('.' +END_LINE);
             out.flush();

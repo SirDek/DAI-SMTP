@@ -63,7 +63,11 @@ public class SMTPClient {
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
                 out.flush();
+                out.close();
+                in.close();
+                socket.close();
                 LOG.log(Level.SEVERE, ERROR_MSG + line);
+                return;
             }
             // Recuperation des informations sur les capacites du serveur.
             while (line.startsWith("250-")) {
@@ -79,7 +83,11 @@ public class SMTPClient {
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
                 out.flush();
+                out.close();
+                in.close();
+                socket.close();
                 LOG.log(Level.SEVERE, ERROR_MSG + line);
+                return;
             }
 
             // Envoi des adresses email des recepteurs.
@@ -92,7 +100,11 @@ public class SMTPClient {
                 if (!line.startsWith("250")) {
                     out.write("QUIT" + END_LINE);
                     out.flush();
+                    out.close();
+                    in.close();
+                    socket.close();
                     LOG.log(Level.SEVERE, ERROR_MSG + line);
+                    return;
                 }
             }
 
@@ -105,7 +117,11 @@ public class SMTPClient {
             if (!line.startsWith("354")) { // todo faire mieux
                 out.write("QUIT" + END_LINE);
                 out.flush();
+                out.close();
+                in.close();
+                socket.close();
                 LOG.log(Level.SEVERE, ERROR_MSG + line);
+                return;
             }
             // Entetes email.
             out.write("From: " + mail.getSender() + END_LINE);
@@ -127,9 +143,12 @@ public class SMTPClient {
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
                 out.flush();
+                out.close();
+                in.close();
+                socket.close();
                 LOG.log(Level.SEVERE, ERROR_MSG + line);
+                return;
             }
-
             // Fin de la communication
 
             // Fermeture des buffers ainsi que de la socket.

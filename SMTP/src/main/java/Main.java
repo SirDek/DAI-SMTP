@@ -1,8 +1,9 @@
-package configuration;
-
 import java.io.IOException;
 import java.util.LinkedList;
+
+import configuration.Config;
 import donnee.*;
+import configuration.Config;
 import smpt.SMTPClient;
 
 public class Main {

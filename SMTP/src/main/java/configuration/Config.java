@@ -28,7 +28,7 @@ public class Config {
      * Constructeur de Config
      * @throws IOException  Si impossible d'accéder aux configurations
      */
-    Config() throws IOException {
+    public Config() throws IOException {
         InputStream input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
         prop = new Properties();
         prop.load(input);

@@ -62,12 +62,7 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
-                out.flush();
-                out.close();
-                in.close();
-                socket.close();
-                LOG.log(Level.SEVERE, ERROR_MSG + line);
-                return;
+                throw new IOException(ERROR_MSG + line);
             }
             // Recuperation des informations sur les capacites du serveur.
             while (line.startsWith("250-")) {
@@ -82,12 +77,7 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
-                out.flush();
-                out.close();
-                in.close();
-                socket.close();
-                LOG.log(Level.SEVERE, ERROR_MSG + line);
-                return;
+                throw new IOException(ERROR_MSG + line);
             }
 
             // Envoi des adresses email des recepteurs.
@@ -99,12 +89,7 @@ public class SMTPClient {
                 line = in.readLine();
                 if (!line.startsWith("250")) {
                     out.write("QUIT" + END_LINE);
-                    out.flush();
-                    out.close();
-                    in.close();
-                    socket.close();
-                    LOG.log(Level.SEVERE, ERROR_MSG + line);
-                    return;
+                    throw new IOException(ERROR_MSG + line);
                 }
             }
 
@@ -114,14 +99,9 @@ public class SMTPClient {
             line = in.readLine();
 
             // Reception de la reponse du serveur, controle du code de status
-            if (!line.startsWith("354")) { // todo faire mieux
+            if (!line.startsWith("354")) { 
                 out.write("QUIT" + END_LINE);
-                out.flush();
-                out.close();
-                in.close();
-                socket.close();
-                LOG.log(Level.SEVERE, ERROR_MSG + line);
-                return;
+                throw new IOException(ERROR_MSG + line);
             }
             // Entetes email.
             out.write("From: " + mail.getSender() + END_LINE);
@@ -142,12 +122,7 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
-                out.flush();
-                out.close();
-                in.close();
-                socket.close();
-                LOG.log(Level.SEVERE, ERROR_MSG + line);
-                return;
+                throw new IOException(ERROR_MSG + line);
             }
             // Fin de la communication
 

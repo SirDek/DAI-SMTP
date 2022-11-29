@@ -1,15 +1,15 @@
-package donnee;
+package data;
 
 import java.util.LinkedList;
 
 /**
- * Classe MailGroupe
- * Cette classe a pour but de stocker un groupe d'adresse contenant des destinataires et un envoyaeur
+ * Classe EmailGroup
+ * Cette classe a pour but de stocker un groupe d'adresse contenant des destinataires et un envoyeur
  * @author Laetitia Guidetti
  * @author Cédric Centeno
  * Date : 25.11.2022
  */
-public class MailGroupe {
+public class EmailGroup {
     private final String SENDER;
     private final LinkedList<String> RECEIVERS;
 
@@ -17,7 +17,7 @@ public class MailGroupe {
      * Constructeur de MailGroupe
      * @param sender     L'adresse de l'envoyeur
      */
-    public MailGroupe(String sender) {
+    public EmailGroup(String sender) {
         SENDER = sender;
         RECEIVERS = new LinkedList<>();
     }
@@ -39,8 +39,8 @@ public class MailGroupe {
     }
 
     /**
-     * Permet d'obtenir la liste de tout les destinataires
-     * @return  La LinkedList contenant tout les destinataires
+     * Permet d'obtenir la liste de tous les destinataires
+     * @return  La LinkedList contenant tous les destinataires
      */
     public LinkedList<String> getReceivers() {
         return RECEIVERS;

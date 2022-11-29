@@ -1,29 +1,37 @@
-import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import configuration.Config;
-import donnee.*;
-import configuration.Config;
+import configuration.DataReader;
+import data.*;
 import smpt.SMTPClient;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    final static Logger LOG = Logger.getLogger(DataReader.class.getName());
 
-        Config config = new Config();
+    public static void main(String[] args) {
+        try {
+            Config config = new Config();
 
+            ServerInfo serv = config.createServer();
+            System.out.println(serv.getPort() + " " + serv.getHost());
 
-        ServerInfo serv = config.createServer();
-        System.out.println(serv.getPort() + " " + serv.getHost());
-
-        LinkedList<Mail> allMails = config.getAllMail();
-        for (Mail mail : allMails) {
-            SMTPClient client = new SMTPClient(mail, serv);
+            LinkedList<Email> allEmails = config.getAllMail();
+            for (Email email : allEmails) {
+            SMTPClient client = new SMTPClient(email, serv);
             client.send();
-            /*System.out.println("Sender : " + mail.getSender());
-            for (String s : mail.getReceivers()) {
-                System.out.println("Receivers : " + s);
+            /*
+                System.out.println("Sender : " + email.getSender());
+                for (String s : email.getReceivers()) {
+                    System.out.println("Receivers : " + s);
+                }
+                System.out.println("Mail : " + email.getFakeEmail() + " \n\n\n");*/
             }
-            System.out.println("Mail : " + mail.getFakeMail() + " \n\n\n");*/
+
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
         }
+
     }
 }

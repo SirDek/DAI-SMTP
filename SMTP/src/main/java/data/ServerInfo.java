@@ -1,4 +1,4 @@
-package donnee;
+package data;
 
 /**
  * Classe ServerInfo
@@ -15,7 +15,7 @@ public class ServerInfo {
     /**
      * Constructeur de ServerInfo
      * @param host      L'adresse IP du serveur à atteindre
-     * @param port      Le port sur le quel écoute le serveur
+     * @param port      Le port sur lequel écoute le serveur
      */
     public ServerInfo(String host, int port) {
         HOST = host;

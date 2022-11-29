@@ -1,5 +1,5 @@
 package smpt;
-import donnee.*;
+import data.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -14,17 +14,17 @@ import java.util.logging.Logger;
  */
 public class SMTPClient {
     final static Logger LOG = Logger.getLogger(SMTPClient.class.getName());
-    Mail mail;
+    Email email;
     ServerInfo server;
 
     /**
      * Le constructeur de la classe SMTP client
-     * @param mail      Permet l'obtention des adresses emails, entetes, et corp de l'email.
+     * @param email      Permet l'obtention des adresses emails, entetes, et corp de l'email.
      * @param server    Permet l'obtention de l'adresse IP et du numero de port du serveur SMTP
      *                  auquel on souhaite se connecter.
      */
-    public SMTPClient(Mail mail, ServerInfo server) {
-        this.mail = mail;
+    public SMTPClient(Email email, ServerInfo server) {
+        this.email = email;
         this.server = server;
     }
 
@@ -33,7 +33,7 @@ public class SMTPClient {
      */
     public void send() {
 
-        // Reception des informations du serveur SMTP avec lequel on souhaite communiquer.
+        // Reception des informations du serveur SMTP avec lequel on souhaite communiquer
         final String SMTP_HOST = server.getHost();
         final int port = server.getPort();
 
@@ -46,46 +46,46 @@ public class SMTPClient {
         BufferedWriter out = null;
 
         try {
-            // Connection au serveur a travers une socket.
+            // Connection au serveur à travers d'une socket
             socket = new Socket(SMTP_HOST, port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream(), FORMAT));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), FORMAT));
 
-            // Lecture du message d'accueil du serveur.
+            // Lecture du message d'accueil du serveur
             String line = in.readLine();
 
             // Identification du client
             out.write("EHLO prankster" + END_LINE);
             out.flush();
 
-            // Reception de la reponse du serveur, controle du code de status
+            // Reception de la réponse du serveur, contrôle du code de status
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
                 throw new IOException(ERROR_MSG + line);
             }
-            // Recuperation des informations sur les capacites du serveur.
+            // Recuperation des informations sur les capacités du serveur
             while (line.startsWith("250-")) {
                 line = in.readLine();
             }
 
-            // Envoi de l'adresse email de l'emetteur.
-            out.write("MAIL FROM:" + mail.getSender() + END_LINE);
+            // Envoi de l'adresse email de l'envoyeur
+            out.write("MAIL FROM:" + email.getSender() + END_LINE);
             out.flush();
 
-            // Reception de la reponse du serveur, controle du code de status
+            // Reception de la réponse du serveur, contrôle du code de status
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
                 throw new IOException(ERROR_MSG + line);
             }
 
-            // Envoi des adresses email des recepteurs.
-            for (String reciever : mail.getReceivers()) {
+            // Envoi des adresses email des destinataires.
+            for (String reciever : email.getReceivers()) {
                 out.write("RCPT TO:" + reciever + END_LINE);// ;
                 out.flush();
 
-                // Reception de la reponse du serveur, controle du code de status
+                // Reception de la réponse du serveur, contrôle du code de status
                 line = in.readLine();
                 if (!line.startsWith("250")) {
                     out.write("QUIT" + END_LINE);
@@ -93,28 +93,29 @@ public class SMTPClient {
                 }
             }
 
-            // Initialisation de la transmition du courier
+            // Initialisation de la transmission du courier
             out.write("DATA" + END_LINE);
             out.flush();
             line = in.readLine();
 
-            // Reception de la reponse du serveur, controle du code de status
+            // Reception de la réponse du serveur, contrôle du code de status
             if (!line.startsWith("354")) { 
                 out.write("QUIT" + END_LINE);
                 throw new IOException(ERROR_MSG + line);
             }
-            // Entetes email.
-            out.write("From: " + mail.getSender() + END_LINE);
+            // Entêtes email.
+            out.write("From: " + email.getSender() + END_LINE);
             out.write("To: ");
-            for (String reciever : mail.getReceivers()) {
+            for (String reciever : email.getReceivers()) {
                 out.write( reciever + " ");
             }
             out.write(END_LINE);
+
             // Specification du format du plain text
             out.write("Content-Type: text/plain; charset=utf-8" + END_LINE);
 
             // Envoi du texte contenant l'entete sujet ainsi que le contenu de la prank
-            out.write(mail.getFakeMail());
+            out.write(email.getFakeEmail());
             out.write('.' +END_LINE);
             out.flush();
 
@@ -137,14 +138,14 @@ public class SMTPClient {
                 try {
                     in.close();
                 } catch (IOException ex1) {
-                    LOG.log(Level.SEVERE, ex.getMessage(), ex1);
+                    LOG.log(Level.SEVERE, ex1.getMessage(), ex1);
                 }
             }
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException ex1) {
-                    LOG.log(Level.SEVERE, ex.getMessage(), ex1);
+                    LOG.log(Level.SEVERE, ex1.getMessage(), ex1);
                 }
             }
             if (socket != null) {

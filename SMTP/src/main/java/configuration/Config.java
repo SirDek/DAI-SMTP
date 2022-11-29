@@ -1,11 +1,12 @@
 package configuration;
 
-import donnee.*;
-
+import data.*;
 import java.io.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,10 +19,11 @@ import java.util.regex.Pattern;
  */
 public class Config {
 
+    final static Logger LOG = Logger.getLogger(Config.class.getName());
     final static private String CONFIG_PATH = "config.properties";
     final static private Pattern ADDRESS_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-    final int NB_GROUPE;
-    private Properties prop;
+    private final int NB_GROUP;
+    final private Properties PROPERTIES;
 
 
     /**
@@ -29,10 +31,23 @@ public class Config {
      * @throws IOException  Si impossible d'accéder aux configurations
      */
     public Config() throws IOException {
-        InputStream input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
-        prop = new Properties();
-        prop.load(input);
-        NB_GROUPE = Integer.parseInt(prop.getProperty("nbGroupe"));
+        InputStream input = null;
+        PROPERTIES = new Properties();
+        try {
+            input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
+            PROPERTIES.load(input);
+            NB_GROUP = Integer.parseInt(PROPERTIES.getProperty("nbGroupe"));
+        }
+        catch (IOException ex) {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException ex1) {
+                    LOG.log(Level.SEVERE, ex1.getMessage(), ex1);
+                }
+            }
+            throw ex;
+        }
     }
 
     /**
@@ -40,7 +55,7 @@ public class Config {
      * @return  Un objet de la classe ServerInfo
      */
     public ServerInfo createServer() {
-        return new ServerInfo(prop.getProperty("host"), Integer.parseInt(prop.getProperty("port")));
+        return new ServerInfo(PROPERTIES.getProperty("host"), Integer.parseInt(PROPERTIES.getProperty("port")));
     }
 
     /**
@@ -48,41 +63,41 @@ public class Config {
      * @return                  Une LinkedList contenant les divers Mail
      * @throws IOException      Si le nombre d'adresses n'est pas suffisant ou si une adresse mail n'est pas valide
      */
-    public LinkedList<Mail> getAllMail() throws IOException {
+    public LinkedList<Email> getAllMail() throws Exception {
 
         LinkedList<String> fakeMails = DataReader.readFakeMail();
-        LinkedList<String> mailAdress = DataReader.readMailAdresse();
+        LinkedList<String> allEmailAddress = DataReader.readMailAdresse();
 
         // Vérifie que le nombre d'adresses mail est suffisant
-        if (mailAdress.size() / 3 < NB_GROUPE) throw new IOException();
+        if (allEmailAddress.size() / 3 < NB_GROUP) throw new IllegalArgumentException();
 
         // Vérifie que les adresses mails sont utilisables
-        if(!checkAddressMail(mailAdress)) throw new IOException();
+        if(!checkAddressMail(allEmailAddress)) throw new IllegalArgumentException();
 
-        LinkedList<MailGroupe> mailGroupes = new LinkedList<>();
+        LinkedList<EmailGroup> emailGroups = new LinkedList<>();
 
-        // Permet de choisir aléatoirement les envoyeurs, destinataires et le text du mail
+        // Permet de choisir aléatoirement les envoyeurs, destinataires et le texte de l'email
         Collections.shuffle(fakeMails);
-        Collections.shuffle(mailAdress);
+        Collections.shuffle(allEmailAddress);
 
-        for(int i = 0; i  < mailAdress.size(); ++i) {
-            if(i < NB_GROUPE) {
-                // Création des mailsGroupe et de leur envoyeur
-                mailGroupes.add(new MailGroupe(mailAdress.get(i)));
+        for(int i = 0; i  < allEmailAddress.size(); ++i) {
+            if(i < NB_GROUP) {
+                // Création des emailsGroup et de leur envoyeur
+                emailGroups.add(new EmailGroup(allEmailAddress.get(i)));
             }
             else {
                 // Ajout des destinataires
-                mailGroupes.get(i % NB_GROUPE).addReceiver(mailAdress.get(i));
+                emailGroups.get(i % NB_GROUP).addReceiver(allEmailAddress.get(i));
             }
         }
 
-        LinkedList<Mail> mails = new LinkedList<>();
-        for(int i = 0; i < NB_GROUPE; ++i) {
-            // Création des mails
-            mails.add(new Mail(fakeMails.get(i), mailGroupes.get(i)));
+        LinkedList<Email> emails = new LinkedList<>();
+        for(int i = 0; i < NB_GROUP; ++i) {
+            // Création des emails
+            emails.add(new Email(fakeMails.get(i), emailGroups.get(i)));
         }
 
-        return mails;
+        return emails;
     }
 
 

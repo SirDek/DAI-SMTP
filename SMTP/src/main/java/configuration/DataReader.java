@@ -1,6 +1,7 @@
 package configuration;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -31,7 +32,7 @@ public class DataReader {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(ADDRESS_PATH)).getFile()));
+            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(ADDRESS_PATH)).getFile(), StandardCharsets.UTF_8));
 
             LinkedList<String> mailAdresses = new LinkedList<>();
             String line;
@@ -66,7 +67,7 @@ public class DataReader {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(FAKE_MAIL_PATH)).getFile()));
+            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(FAKE_MAIL_PATH)).getFile(), StandardCharsets.UTF_8));
 
             LinkedList<String> fakeMails = new LinkedList<>();
             String line;

@@ -94,7 +94,7 @@ public class Config {
         LinkedList<Email> emails = new LinkedList<>();
         for(int i = 0; i < NB_GROUP; ++i) {
             // Création des emails
-            emails.add(new Email(fakeMails.get(i), emailGroups.get(i)));
+            emails.add(new Email(fakeMails.get(i % fakeMails.size()), emailGroups.get(i)));
         }
 
         return emails;

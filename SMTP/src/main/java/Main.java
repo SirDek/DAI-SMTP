@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,19 +20,17 @@ public class Main {
 
             LinkedList<Email> allEmails = config.getAllMail();
             for (Email email : allEmails) {
-            SMTPClient client = new SMTPClient(email, serv);
-            client.send();
-            /*
+                SMTPClient client = new SMTPClient(email, serv);
+                client.send();
+                /*
                 System.out.println("Sender : " + email.getSender());
                 for (String s : email.getReceivers()) {
                     System.out.println("Receivers : " + s);
                 }
                 System.out.println("Mail : " + email.getFakeEmail() + " \n\n\n");*/
             }
-
         } catch (Exception ex) {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+            LOG.log(Level.SEVERE, "Fatal error - End of program");
         }
-
     }
 }

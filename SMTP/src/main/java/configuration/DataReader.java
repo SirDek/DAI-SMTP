@@ -45,6 +45,7 @@ public class DataReader {
 
             return mailAdresses;
         } catch (IOException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
             if (reader != null) {
                 try {
                     reader.close();
@@ -89,6 +90,7 @@ public class DataReader {
             return fakeMails;
 
         } catch (IOException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
             if (reader != null) {
                 try {
                     reader.close();

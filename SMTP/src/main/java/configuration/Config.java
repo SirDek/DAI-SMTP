@@ -39,6 +39,7 @@ public class Config {
             NB_GROUP = Integer.parseInt(PROPERTIES.getProperty("nbGroupe"));
         }
         catch (IOException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
             if (input != null) {
                 try {
                     input.close();
@@ -61,18 +62,24 @@ public class Config {
     /**
      * Permet d'obtenir une liste de mail contenant le contenu d'un mail, l'envoyeur et les destinataires
      * @return                  Une LinkedList contenant les divers Mail
-     * @throws IOException      Si le nombre d'adresses n'est pas suffisant ou si une adresse mail n'est pas valide
+     * @throws IOException      Si un problème est rencontré lors de la lecture des fichiers
      */
-    public LinkedList<Email> getAllMail() throws Exception {
+    public LinkedList<Email> getAllMail() throws IOException {
 
         LinkedList<String> fakeMails = DataReader.readFakeMail();
         LinkedList<String> allEmailAddress = DataReader.readMailAdresse();
 
-        // Vérifie que le nombre d'adresses mail est suffisant
-        if (allEmailAddress.size() / 3 < NB_GROUP) throw new IllegalArgumentException();
+        try {
+            // Vérifie que le nombre d'adresses mail est suffisant
+            if (allEmailAddress.size() / 3 < NB_GROUP) throw new IllegalArgumentException("Insufficient number of addresses");
 
-        // Vérifie que les adresses mails sont utilisables
-        if(!checkAddressMail(allEmailAddress)) throw new IllegalArgumentException();
+            // Vérifie que les adresses mails sont utilisables
+            checkAddressMail(allEmailAddress);
+        }
+        catch (IllegalArgumentException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage(), ex);
+            throw ex;
+        }
 
         LinkedList<EmailGroup> emailGroups = new LinkedList<>();
 
@@ -103,15 +110,14 @@ public class Config {
 
     /**
      * Permet de vérifier que toutes les adresses mails sont valides
+     * Un IllegalArgumentException est levé si une adresse est invalide
      * @param mailAddress   La liste des adresses mails
-     * @return              True si toutes les adresses sont valides, false si au moins une est invalide
      */
-    public boolean checkAddressMail(LinkedList<String> mailAddress) {
+    public void checkAddressMail(LinkedList<String> mailAddress) {
 
         for(String address : mailAddress) {
             Matcher matcher = ADDRESS_PATTERN.matcher(address);
-            if(!matcher.find()) return false;
+            if(!matcher.find()) throw new IllegalArgumentException(address + " is an invalid address");
         }
-        return true;
     }
 }

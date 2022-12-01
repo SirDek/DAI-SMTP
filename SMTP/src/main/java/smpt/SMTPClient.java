@@ -7,8 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * La classe SMTPClient.
- * Cette classe a pour role d'envoyer les email a un serveur SMTP
+ * La classe SMTPClient
+ * Cette classe a pour rôle d'envoyer des emails à un serveur SMTP
  * @author Laetitia Guidetti
  * @author Cédric Centeno
  * Date : 25.11.2022
@@ -21,7 +21,7 @@ public class SMTPClient {
     /**
      * Le constructeur de la classe SMTP client
      * @param email     Permet l'obtention des adresses emails, entêtes, et corp de l'email.
-     * @param server    Permet l'obtention de l'adresse IP et du numero de port du serveur SMTP
+     * @param server    Permet l'obtention de l'adresse IP et du numéro de port du serveur SMTP
      *                  auquel on souhaite se connecter.
      */
     public SMTPClient(Email email, ServerInfo server) {
@@ -32,7 +32,7 @@ public class SMTPClient {
     /**
      * Envoie des emails prank à travers le protocole SMTP
      */
-    public void send() {
+    public void send() throws IOException {
 
         // Réception des informations du serveur SMTP avec lequel on souhaite communiquer.
         final String SMTP_HOST = server.getHost();
@@ -159,6 +159,7 @@ public class SMTPClient {
                 }
             }
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
+            throw ex;
         }
     }
 }

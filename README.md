@@ -17,6 +17,42 @@ Ce serveur permet de tester le fonctionnement de notre client. Les emails qui at
 aux clients. Il permet de voir à quoi les emails fournis au serveur via le client ressemble via une interface Web.
 Par conséquent, il s'agit uniquement d'un serveur de test et non d'envoi. 
 
+## MockMock sur Docker
+### Dépendences
+Les programmes suivants doivent être installés :
+- Java avec un jdk >= 11
+- Docker
+- maven
+- (telnet pour tester manuellement la communication avec le serveur Mock)
+
+### Outils mis à disposition
+Dans le dossier docker, nous avons mis les outils nécessaires à l'installation du 
+server mock avec Docker. Ce dossier contient :
+- **MockMock-1.4.1-SNAPSHOT.one-jar.jar** : Exécutable du serveur mock. Il est 
+  possible de générer soi-même cet exécutable en suivant les instructions suivantes :
+  - cloner le repo suivant : https://github.com/DominiqueComte/MockMock.git
+  - Ouvrir le terminal à la source du projet, exécuter la commande ```mvn clean package```. 
+    On peut ensuite trouver l'exécutable souhaité (MockMock-1.4.1-SNAPSHOT. one-jar.jar) 
+    dans le dossier target du projet.
+- **Dockerfile** : Commandes pour construire l'image docker avec la configuration 
+  souhaitée
+- **build-image.sh** : Construit l'image (spécifié par Dockerfile) en local
+- **run-container.sh** : Exécute un container depuis l'image créée par build-image.
+
+### Etapes pour lancer le programme
+Dans le dossier docker, il faut en premier exécuter :```build-image.sh``` pour 
+créer l'image, puis ```run-container.sh``` pour lancer un container.
+
+Ces commandes terminées, le container contenant le serveur Mock tourne maintenant en 
+background.
+Ses ports 25 (pour smtp) et 8282 (pour l'interface web) sont ouverts.
+
+#### Commande pour se connecter manuellement au serveur SMTP
+```telnet localhost 25```.
+
+#### Consulter les emails reçus par le serveur 
+Se connecter sur un navigateur à cette page : ```localhost:8282```.
+
 ## Instructions pour lancer le faux serveur SMTP
 
 ## Configuration et lancement du client

@@ -4,7 +4,7 @@
 
 ## Description du projet
 
-Ce projet à pour but de réaliser un client SMTP (le protocole de communication utilisé pour transférer des emails vers les serveurs de messagerie électronique, 
+Ce projet a pour but de réaliser un client SMTP (le protocole de communication utilisé pour transférer des emails vers les serveurs de messagerie électronique, 
 détails : https://www.rfc-editor.org/rfc/rfc5321.html). Ce client utilise l'API socket pour communiquer avec un serveur SMTP.
 L'application permet d'envoyer des blagues par email à une liste de victimes. L'application forme un ou plusieurs groupes de victimes, 
 chaque groupe aura une victime qui sera désignée comme l'envoyeur et les autres comme des destinataires. Un email sera ensuite 
@@ -18,7 +18,7 @@ aux clients. Il permet de voir à quoi les emails fournis au serveur via le clie
 Par conséquent, il s'agit uniquement d'un serveur de test et non d'envoi. 
 
 ## MockMock sur Docker
-### Dépendences
+### Dépendances
 Les programmes suivants doivent être installés :
 - Java avec un jdk >= 11
 - Docker
@@ -30,7 +30,7 @@ Dans le dossier docker, nous avons mis les outils nécessaires à l'installation
 server mock avec Docker. Ce dossier contient :
 - **MockMock-1.4.1-SNAPSHOT.one-jar.jar** : Exécutable du serveur mock. Il est 
   possible de générer soi-même cet exécutable en suivant les instructions suivantes :
-  - cloner le repo suivant : https://github.com/DominiqueComte/MockMock.git
+  - Cloner le repo suivant : https://github.com/DominiqueComte/MockMock.git
   - Ouvrir le terminal à la source du projet, exécuter la commande ```mvn clean package```. 
     On peut ensuite trouver l'exécutable souhaité (MockMock-1.4.1-SNAPSHOT. one-jar.jar) 
     dans le dossier target du projet.
@@ -57,10 +57,10 @@ Se connecter sur un navigateur à cette page : ```localhost:8282```.
 
 ## Configuration et lancement du client
 
-Plusieurs options sont paramétrables, tous les fichiers de configuration se situe dans le dossier SMTP/src/main/resources.
+Plusieurs options sont paramétrables, tous les fichiers de configuration se situent dans le dossier SMTP/src/main/resources.
 
 Le fichier config.properties contient les paramètres globaux et ceux du serveur. Chaque paramètre y est stocké comme une paire composée 
-d'une clé (le nom du paramètre) et de sa valeur. Par conséquent, seul la partie située après le = est à modifier.\
+d'une clé (le nom du paramètre) et de sa valeur. Par conséquent, seule la partie située après le = est à modifier.\
 La ligne host permet d'indiquer l'adresse IP du serveur.\
 La ligne port permet d'indiquer le port sur lequel écoute le serveur.\
 La ligne nbGroupe permet d'indiquer le nombre de groupes de victimes que l'on souhaite créer.\
@@ -103,16 +103,21 @@ Exemple de contenu conforme :
 ## Implémentation
 
 Le code est réparti en 3 paquetages : data, configuration et smpt.\
-Le premier data est chargé de stocker via diverses classes toutes les informations obtenues via le paquetage configuration.
+Le premier **data** est chargé de stocker via diverses classes toutes les informations obtenues via le paquetage configuration.
+
 - La classe **ServerInfo** qui permet de stocker les informations permettant de communiquer avec le serveur SMTP
 - La classe **EmailGroup** qui permet de stocker les groupes d'adresses. Elle y a toujours un envoyeur et au minimum 2 destinataires
 - La classe **Email** qui permet de stocker toutes les informations d'un email. Elle contient un objet EmailGroup et le contenu de l'email à envoyer
-Le deuxième configuration permet de lire les ressources et de vérifier la conformité de toutes les informations.
+
+Le deuxième **configuration** permet de lire les ressources et de vérifier la conformité de toutes les informations.
+
 - La classe **DataReader** permet de lire les fichiers txt selon le format voulu (address.txt et fakeEmail.txt)
 - La classe **Config** récupère les informations de config.properties et permet de créer un objet ServerInfo. Elle utilise  
 DataReader pour récupérer les adresse emails qu'elle place dans des objets EmailGroupe. Elle vérifie que chaque adresse soit valide et
 que le nombre total d'adresses soit suffisant pour le nombre de groupes spécifié. Elle récupère via cette classe également les contenus des emails 
-ce qui lui permet de créer les objets Email.
-Le dernière smtp utilise les objets créés plutôt pour établir une communication avec le serveur SMTP et de lui transmettre les faux mails.
+ce qui lui permet de créer les objets Email
+
+Le dernier **smt**p utilise les objets créés plutôt pour établir une communication avec le serveur SMTP et de lui transmettre les faux mails.
+
 - La classe **SMTPClient** est une implémentation d'un client SMPT. Elle permet d'établir une connexion avec le serveur 
 grâce au contenu d'un objet ServerInfo et d'envoyer un email grâce à un objet Email.

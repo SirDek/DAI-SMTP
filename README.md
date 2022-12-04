@@ -26,7 +26,7 @@ Les programmes suivants doivent être installés :
 - (telnet pour tester manuellement la communication avec le serveur Mock)
 
 ### Outils mis à disposition
-Dans le dossier docker, nous avons mis les outils nécessaires à l'installation du 
+Dans le dossier docker se trouvent les outils nécessaires à l'installation du 
 server mock avec Docker. Ce dossier contient :
 - **MockMock-1.4.1-SNAPSHOT.one-jar.jar** : Exécutable du serveur mock. Il est 
   possible de générer soi-même cet exécutable en suivant les instructions suivantes :
@@ -52,6 +52,15 @@ Ses ports 25 (pour smtp) et 8282 (pour l'interface web) sont ouverts.
 
 #### Consulter les emails reçus par le serveur 
 Se connecter sur un navigateur à cette page : ```localhost:8282```.
+
+### Exemple communication SMTP client-serveur
+![SMTP_Client-Server](figures/SMTPcommunication_Client_Server.svg)
+
+Le serveur renvoie 250 lorsqu'il a bien reçu un message du client. Si le serveur 
+renvoie un message d'erreur, le client met fin à la communication (QUIT).
+
+Le message 354 ... envoyé par le serveur lors de la bonne reception du message
+client DATA indique la syntaxe permettant de déterminer la fin du contenu de l'email.
 
 ## Instructions pour lancer le faux serveur SMTP
 
@@ -124,11 +133,3 @@ Le dernier **smt**p utilise les objets créés plutôt pour établir une communi
 - La classe **SMTPClient** est une implémentation d'un client SMPT. Elle permet d'établir une connexion avec le serveur 
 grâce au contenu d'un objet ServerInfo et d'envoyer un email grâce à un objet Email.
 
-### Exemple communication SMTP client-serveur
-![SMTP_Client-Server](figures/SMTPcommunication_Client_Server.svg)
-
-Le serveur renvoie 250 lorsqu'il a bien reçu un message du client. Si le serveur 
-renvoie un message d'erreur, le client met fin à la communication (QUIT).
-
-Le message 354 ... envoyé par le serveur lors de la bonne reception du message
-client DATA indique la syntaxe permettant de déterminer la fin du contenu de l'email.

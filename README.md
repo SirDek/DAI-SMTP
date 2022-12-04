@@ -101,6 +101,8 @@ Exemple de contenu conforme :
 ### A COMPLETER, lancement du client commande
 
 ## Implémentation
+### Class Diagram
+![classDiagramPrankEmail](figures/ClassDiagramSMTP.svg)
 
 Le code est réparti en 3 paquetages : data, configuration et smpt.\
 Le premier **data** est chargé de stocker via diverses classes toutes les informations obtenues via le paquetage configuration.

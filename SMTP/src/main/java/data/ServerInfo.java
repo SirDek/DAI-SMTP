@@ -9,8 +9,8 @@ package data;
  */
 public class ServerInfo {
 
-    final String HOST;
-    final int PORT;
+    private final String HOST;
+    private final int PORT;
 
     /**
      * Constructeur de ServerInfo

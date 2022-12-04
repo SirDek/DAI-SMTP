@@ -123,3 +123,12 @@ Le dernier **smt**p utilise les objets créés plutôt pour établir une communi
 
 - La classe **SMTPClient** est une implémentation d'un client SMPT. Elle permet d'établir une connexion avec le serveur 
 grâce au contenu d'un objet ServerInfo et d'envoyer un email grâce à un objet Email.
+
+### Exemple communication SMTP client-serveur
+![SMTP_Client-Server](figures/SMTPcommunication_Client_Server.svg)
+
+Le serveur renvoie 250 lorsqu'il a bien reçu un message du client. Si le serveur 
+renvoie un message d'erreur, le client met fin à la communication (QUIT).
+
+Le message 354 ... envoyé par le serveur lors de la bonne reception du message
+client DATA indique la syntaxe permettant de déterminer la fin du contenu de l'email.

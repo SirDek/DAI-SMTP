@@ -63,6 +63,8 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
+                // Réponse du serveur
+                line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
             // Récupération des informations sur les capacités du serveur.
@@ -78,6 +80,8 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
+                // Réponse du serveur
+                line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
 
@@ -90,6 +94,8 @@ public class SMTPClient {
                 line = in.readLine();
                 if (!line.startsWith("250")) {
                     out.write("QUIT" + END_LINE);
+                    // Réponse du serveur
+                    line = in.readLine();
                     throw new IOException(ERROR_MSG + line);
                 }
             }
@@ -102,6 +108,8 @@ public class SMTPClient {
             // Réception de la réponse du serveur, contrôle du code de status.
             if (!line.startsWith("354")) { 
                 out.write("QUIT" + END_LINE);
+                // Réponse du serveur
+                line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
             // Entêtes email.
@@ -126,10 +134,15 @@ public class SMTPClient {
             line = in.readLine();
             if (!line.startsWith("250")) {
                 out.write("QUIT" + END_LINE);
+                // Réponse du serveur
+                line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
             // Fin de la communication.
 
+            out.write("QUIT" + END_LINE);
+            // Réponse du serveur
+            line = in.readLine();
             // Fermeture des buffers ainsi que de la socket.
             in.close();
             out.close();

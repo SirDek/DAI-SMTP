@@ -32,7 +32,7 @@ public class DataReader {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(ADDRESS_PATH)).getFile(), StandardCharsets.UTF_8));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(ADDRESS_PATH))));
 
             LinkedList<String> mailAdresses = new LinkedList<>();
             String line;
@@ -67,7 +67,7 @@ public class DataReader {
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(Objects.requireNonNull(CLASS_LOADER.getResource(FAKE_MAIL_PATH)).getFile(), StandardCharsets.UTF_8));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(FAKE_MAIL_PATH))));
 
             LinkedList<String> fakeMails = new LinkedList<>();
             String line;

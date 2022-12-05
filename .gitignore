@@ -29,3 +29,5 @@ SMTP/.idea/
 .idea/
 
 *.iml
+
+SMTP/target/

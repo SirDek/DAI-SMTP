@@ -11,6 +11,8 @@ chaque groupe aura une victime qui sera désignée comme l'envoyeur et les autre
 envoyé à chaque groupe, l'email fera croire que l'envoyeur est la victime désignée.
 Les informations permettant la communication avec le serveur, les faux emails et les victimes sont configurables.
 
+## Instructions pour lancer le faux serveur SMTP
+
 ## MockMock 
 L'application utilise actuellement un Mock SMTP Server : MockMock (https://github.com/HEIGVD-Course-DAI/MockMock).
 Ce serveur permet de tester le fonctionnement de notre client. Les emails qui atteignent le serveur ne sont pas envoyés 
@@ -39,7 +41,7 @@ server mock avec Docker. Ce dossier contient :
 - **build-image.sh** : Construit l'image (spécifié par Dockerfile) en local
 - **run-container.sh** : Exécute un container depuis l'image créée par build-image.
 
-### Etapes pour lancer le programme
+### Etapes pour lancer le serveur
 Dans le dossier docker, il faut en premier exécuter :```build-image.sh``` pour 
 créer l'image, puis ```run-container.sh``` pour lancer un container.
 
@@ -52,17 +54,6 @@ Ses ports 25 (pour smtp) et 8282 (pour l'interface web) sont ouverts.
 
 #### Consulter les emails reçus par le serveur 
 Se connecter sur un navigateur à cette page : ```localhost:8282```.
-
-### Exemple communication SMTP client-serveur
-![SMTP_Client-Server](figures/SMTPcommunication_Client_Server.svg)
-
-Le serveur renvoie 250 lorsqu'il a bien reçu un message du client. Si le serveur 
-renvoie un message d'erreur, le client met fin à la communication (QUIT).
-
-Le message 354 ... envoyé par le serveur lors de la bonne reception du message
-client DATA indique la syntaxe permettant de déterminer la fin du contenu de l'email.
-
-## Instructions pour lancer le faux serveur SMTP
 
 ## Configuration et lancement du client
 
@@ -107,7 +98,14 @@ Exemple de contenu conforme :
 > 
 > Contenu du mail ...
 
-### A COMPLETER, lancement du client commande
+### Etapes pour lancer le client
+- Ouvrir un terminal dans le dossier ```SMTP``` du projet. Dans ce dossier ce 
+trouve le fichier ```pom.xml``` qui contient les informations du projet et les 
+détails de configuration utilisé par Maven pour construire l'exécutable du programme.
+- Entrer la commande ```mvn clean package```. Cette commande va générer 
+  l'exécutable du projet dans un dossier target.
+- Pour lancer le programme, entrer la commande
+```java -jar target/SMTP-1.0-SNAPSHOT-standalone.jar```.
 
 ## Implémentation
 ### Class Diagram
@@ -133,3 +131,11 @@ Le dernier **smt**p utilise les objets créés plutôt pour établir une communi
 - La classe **SMTPClient** est une implémentation d'un client SMPT. Elle permet d'établir une connexion avec le serveur 
 grâce au contenu d'un objet ServerInfo et d'envoyer un email grâce à un objet Email.
 
+### Exemple communication SMTP client-serveur
+![SMTP_Client-Server](figures/SMTPcommunication_Client_Server.svg)
+
+Le serveur renvoie 250 lorsqu'il a bien reçu un message du client. Si le serveur
+renvoie un message d'erreur, le client met fin à la communication (QUIT).
+
+Le message 354 ... envoyé par le serveur lors de la bonne reception du message
+client DATA indique la syntaxe permettant de déterminer la fin du contenu de l'email.

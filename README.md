@@ -65,17 +65,17 @@ Exemple de contenu conforme :
 
 > host=localhost\
 > port=25\
-> nbGroupe=5
+> nbGroupe=3
 
 Le fichier address.txt permet d'indiquer toutes les victimes. Il ne doit y avoir qu'une adresse par ligne. Si une adresse 
 est invalide, cela provoquera une erreur lors de l'exécution du programme. Il doit au minimum avoir 3 fois plus d'adresses 
 que le nombre de groupes souhaité (minimum 1 envoyeur et 2 destinataires). Les groupes sont formés de manière aléatoire.\
 Exemple de contenu conforme :
 
-> mario.amos@heig-vd.ch\
-> tim.ernst@heig-vd.ch\
-> cedric.centeno@heig-vd.ch\
-> michael.gogniat@heig-vd.ch
+> monemail@gmail.com\
+> pasmonemail@gmail.com\
+> mon.email@gmail.com\
+> pas.mon.email@gmail.com
 
 Le fichier fakeEmail.txt permet de rentrer les faux emails. Chaque email doit être séparé par le charactère "#" qui doit 
 être seul sur une ligne. Chaque début d'email doit commencer par "Subject:" puis l'objet de l'email, laissez ensuite une ligne 

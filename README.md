@@ -52,7 +52,7 @@ Ses ports 25 (pour smtp) et 8282 (pour l'interface web) sont ouverts.
 #### Consulter les emails reçus par le serveur 
 Se connecter sur un navigateur à cette page : ```localhost:8282```.
 
-## Configuration et lancement du client
+## Configuration du client
 
 Plusieurs options sont paramétrables, tous les fichiers de configuration se situent dans le dossier SMTP/src/main/resources.
 
@@ -105,7 +105,7 @@ détails de configuration utilisé par Maven pour construire l'exécutable du pr
 ```java -jar target/SMTP-1.0-SNAPSHOT-standalone.jar```.
 
 ## Implémentation
-### Class Diagram
+### Diagramme de classes
 ![classDiagramPrankEmail](figures/ClassDiagramSMTP.svg)
 
 Le code est réparti en 3 paquetages : data, configuration et smpt.\

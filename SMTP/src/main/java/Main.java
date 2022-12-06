@@ -18,10 +18,13 @@ public class Main {
     final static private Logger LOG = Logger.getLogger(DataReader.class.getName());
 
     public static void main(String[] args) {
+
+        System.out.println("Lancement du programme envoyant des pranks par emails");
         try {
             Config config = new Config();
 
             ServerInfo serv = config.createServer();
+            System.out.println("Le serveur à atteindre est à l'adresse : " + serv.getHost() + " et au port : " + serv.getPort());
 
             LinkedList<Email> allEmails = config.getAllMail();
 
@@ -30,6 +33,7 @@ public class Main {
                 SMTPClient client = new SMTPClient(email, serv);
                 client.send();
             }
+            System.out.println("Tout les emails ont été envoyés, fin du programme");
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, "Fatal error - End of program");
         }

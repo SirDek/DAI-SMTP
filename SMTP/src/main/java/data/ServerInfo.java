@@ -5,10 +5,9 @@ package data;
  * Cette classe a pour but de stocker les informations permettant de se connecter à un serveur
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class ServerInfo {
-
     private final String HOST;
     private final int PORT;
 

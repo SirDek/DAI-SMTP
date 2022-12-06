@@ -12,27 +12,24 @@ import java.util.logging.Logger;
  * Cette classe a pour but de lire les informations concernant le contenu et les destinataires des mails
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class DataReader {
-
-    final static private String ADDRESS_PATH = "address.txt";
-    final static private String FAKE_MAIL_PATH = "fakeEmail.txt";
-    final static private String SEPARATOR = "#";
-    final static private String END_LINE = "\r\n";
-    final static Logger LOG = Logger.getLogger(DataReader.class.getName());
-    static private final ClassLoader CLASS_LOADER = DataReader.class.getClassLoader();
+    final static private Logger LOG = Logger.getLogger(DataReader.class.getName());
 
     /**
      * Récupère toutes les adresses mails stockés dans les resources (une par ligne)
-     * @return             La LinkedList contenant toutes les adresses mails lues (non vérifiées, elles peuvent être non conforme)
+     * @return             La LinkedList contenant toutes les adresses emails lues (non vérifiées, elles peuvent être non conforme)
      * @throws IOException Si problème lors de la lecture du fichier
      */
     public static LinkedList<String> readMailAdresse() throws IOException {
 
+        final String ADDRESS_PATH = "address.txt";
+
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(ADDRESS_PATH))));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(ADDRESS_PATH)),
+                                                              StandardCharsets.UTF_8));
 
             LinkedList<String> mailAdresses = new LinkedList<>();
             String line;
@@ -43,8 +40,8 @@ public class DataReader {
             }
 
             reader.close();
-
             return mailAdresses;
+
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
             if (reader != null) {
@@ -60,14 +57,19 @@ public class DataReader {
 
     /**
      * Récupère tous les contenus des mails stockés dans les resources (séparé par un #)
-     * @return             La LinkedList contenant toutes les adresses mails lues (non vérifiées, elles peuvent être non conforme)
+     * @return             La LinkedList contenant tous les emails lus
      * @throws IOException Si problème lors de la lecture du fichier
      */
     public static LinkedList<String> readFakeMail() throws IOException {
 
+        final String FAKE_MAIL_PATH = "fakeEmail.txt";
+        final String SEPARATOR = "#";
+        final String END_LINE = "\r\n";
+
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(FAKE_MAIL_PATH))));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DataReader.class.getClassLoader().getResourceAsStream(FAKE_MAIL_PATH)),
+                                                              StandardCharsets.UTF_8));
 
             LinkedList<String> fakeMails = new LinkedList<>();
             String line;
@@ -75,7 +77,7 @@ public class DataReader {
 
             // Lit tant qu'il y a des lignes à lire
             while ((line = reader.readLine()) != null) {
-                // Un mail est complet si le séparateur est trouvé
+                // Un email est complet si le séparateur est trouvé
                 if (line.equals(SEPARATOR)) {
                     fakeMails.add(fakeMail.toString());
                     fakeMail = new StringBuilder();
@@ -84,7 +86,7 @@ public class DataReader {
                 }
 
             }
-            // Le dernier mail n'a pas de séparateur
+            // Le dernier email n'a pas de séparateur
             fakeMails.add(fakeMail.toString());
 
             reader.close();

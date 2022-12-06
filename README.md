@@ -11,17 +11,15 @@ chaque groupe aura une victime qui sera désignée comme l'envoyeur et les autre
 envoyé à chaque groupe, l'email fera croire que l'envoyeur est la victime désignée.
 Les informations permettant la communication avec le serveur, les faux emails et les victimes sont configurables.
 
-## Instructions pour lancer le faux serveur SMTP
-
 ## MockMock 
 L'application utilise actuellement un Mock SMTP Server : MockMock (https://github.com/HEIGVD-Course-DAI/MockMock).
-Ce serveur permet de tester le fonctionnement de notre client. Les emails qui atteignent le serveur ne sont pas envoyés 
-aux clients. Il permet de voir à quoi les emails fournis au serveur via le client ressemble via une interface Web.
+Ce faux serveur SMTP permet de tester le fonctionnement de notre client. Les emails qui atteignent le serveur ne sont jamais envoyés 
+aux clients. Tous les emails reçus par le serveur sont visibles sur une interface web, cela permet de vérifier le bon fonctionnement d'un client SMTP.
 Par conséquent, il s'agit uniquement d'un serveur de test et non d'envoi. 
 
 ## MockMock sur Docker
 ### Dépendances
-Les programmes suivants doivent être installés :
+Les programmes suivants doivent être installés pour pouvoir correctement utiliser ce git :
 - Java avec un jdk >= 11
 - Docker
 - maven
@@ -36,16 +34,15 @@ server mock avec Docker. Ce dossier contient :
   - Ouvrir le terminal à la source du projet, exécuter la commande ```mvn clean package```. 
     On peut ensuite trouver l'exécutable souhaité (MockMock-1.4.1-SNAPSHOT. one-jar.jar) 
     dans le dossier target du projet.
-- **Dockerfile** : Commandes pour construire l'image docker avec la configuration 
-  souhaitée
-- **build-image.sh** : Construit l'image (spécifié par Dockerfile) en local
-- **run-container.sh** : Exécute un container depuis l'image créée par build-image.
+- **Dockerfile** : Un fichier de la configuration souhaitée pour l'image Docker
+- **build-image.sh** : Un script pour construire l'image (spécifié par Dockerfile) en local
+- **run-container.sh** : Un script pour exécuter un container depuis l'image créée par build-image.
 
 ### Etapes pour lancer le serveur
-Dans le dossier docker, il faut en premier exécuter :```build-image.sh``` pour 
+Dans le dossier docker, il faut en premier exécuter la commande :```build-image.sh``` pour 
 créer l'image, puis ```run-container.sh``` pour lancer un container.
 
-Ces commandes terminées, le container contenant le serveur Mock tourne maintenant en 
+Une fois ses commandes terminées, le container contenant le serveur Mock tourne maintenant en 
 background.
 Ses ports 25 (pour smtp) et 8282 (pour l'interface web) sont ouverts.
 
@@ -70,7 +67,7 @@ Exemple de contenu conforme :
 > port=25\
 > nbGroupe=5
 
-Le fichier address.txt permet d'indiquer toutes les victimes. Il doit n'y avoir qu'une adresse par ligne. Si une adresse 
+Le fichier address.txt permet d'indiquer toutes les victimes. Il ne doit y avoir qu'une adresse par ligne. Si une adresse 
 est invalide, cela provoquera une erreur lors de l'exécution du programme. Il doit au minimum avoir 3 fois plus d'adresses 
 que le nombre de groupes souhaité (minimum 1 envoyeur et 2 destinataires). Les groupes sont formés de manière aléatoire.\
 Exemple de contenu conforme :
@@ -82,7 +79,7 @@ Exemple de contenu conforme :
 
 Le fichier fakeEmail.txt permet de rentrer les faux emails. Chaque email doit être séparé par le charactère "#" qui doit 
 être seul sur une ligne. Chaque début d'email doit commencer par "Subject:" puis l'objet de l'email, laissez ensuite une ligne 
-vide, puis écriviez le contenu du mail. Le contenu du mail est encodé en UTF-8. Il peut y avoir plus ou moins de faux mails que de 
+vide, puis écriviez le contenu du mail. Le contenu du mail est encodé en UTF-8. Il peut y avoir plus ou moins de faux emails que de 
 nombre de groupes (si plus : certains textes ne sont pas envoyés, si moins : certains textes sont envoyés plusieurs fois).
 Le faux mail envoyé à un groupe est aléatoire.\
 Exemple de contenu conforme :
@@ -123,10 +120,10 @@ Le deuxième **configuration** permet de lire les ressources et de vérifier la 
 - La classe **DataReader** permet de lire les fichiers txt selon le format voulu (address.txt et fakeEmail.txt)
 - La classe **Config** récupère les informations de config.properties et permet de créer un objet ServerInfo. Elle utilise  
 DataReader pour récupérer les adresse emails qu'elle place dans des objets EmailGroupe. Elle vérifie que chaque adresse soit valide et
-que le nombre total d'adresses soit suffisant pour le nombre de groupes spécifié. Elle récupère via cette classe également les contenus des emails 
+que le nombre total d'adresses, soit suffisant pour le nombre de groupes spécifié. Elle récupère via cette classe également les contenus des emails 
 ce qui lui permet de créer les objets Email
 
-Le dernier **smt**p utilise les objets créés plutôt pour établir une communication avec le serveur SMTP et de lui transmettre les faux mails.
+Le dernier **smtp** utilise les objets créés plutôt pour établir une communication avec le serveur SMTP et de lui transmettre les faux mails.
 
 - La classe **SMTPClient** est une implémentation d'un client SMPT. Elle permet d'établir une connexion avec le serveur 
 grâce au contenu d'un objet ServerInfo et d'envoyer un email grâce à un objet Email.

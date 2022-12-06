@@ -15,16 +15,15 @@ import java.util.regex.Pattern;
  * Cette classe a pour but de créer les objets stockant les diverses informations en vérifiant leur coherence
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class Config {
 
-    final static Logger LOG = Logger.getLogger(Config.class.getName());
+    final static private Logger LOG = Logger.getLogger(Config.class.getName());
     final static private String CONFIG_PATH = "config.properties";
     final static private Pattern ADDRESS_PATTERN = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     private final int NB_GROUP;
     final private Properties PROPERTIES;
-
 
     /**
      * Constructeur de Config
@@ -34,6 +33,7 @@ public class Config {
         InputStream input = null;
         PROPERTIES = new Properties();
         try {
+            // Récupère les configurations
             input = Config.class.getClassLoader().getResourceAsStream(CONFIG_PATH);
             PROPERTIES.load(input);
             NB_GROUP = Integer.parseInt(PROPERTIES.getProperty("nbGroupe"));
@@ -52,7 +52,7 @@ public class Config {
     }
 
     /**
-     * Permet d'obtenir un objet contenant les informations permettant de se connecter à un serveur
+     * Permet d'obtenir un objet ServerInfo contenant les informations permettant de se connecter à un serveur
      * @return  Un objet de la classe ServerInfo
      */
     public ServerInfo createServer() {
@@ -60,8 +60,8 @@ public class Config {
     }
 
     /**
-     * Permet d'obtenir une liste de mail contenant le contenu d'un mail, l'envoyeur et les destinataires
-     * @return                  Une LinkedList contenant les divers Mail
+     * Permet d'obtenir une liste d'email contenant le contenu d'un email, l'envoyeur et les destinataires
+     * @return                  Une LinkedList contenant les divers Email
      * @throws IOException      Si un problème est rencontré lors de la lecture des fichiers
      */
     public LinkedList<Email> getAllMail() throws IOException {
@@ -109,7 +109,7 @@ public class Config {
 
 
     /**
-     * Permet de vérifier que toutes les adresses mails sont valides
+     * Permet de vérifier que toutes les adresses emails sont valides
      * Un IllegalArgumentException est levé si une adresse est invalide
      * @param mailAddress   La liste des adresses mails
      */

@@ -7,7 +7,7 @@ import java.util.LinkedList;
  * Cette classe a pour but de stocker un groupe d'adresse contenant des destinataires et un envoyeur
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class EmailGroup {
     private final String SENDER;

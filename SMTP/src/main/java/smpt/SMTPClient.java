@@ -11,18 +11,18 @@ import java.util.logging.Logger;
  * Cette classe a pour rôle d'envoyer des emails à un serveur SMTP
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class SMTPClient {
-    final static Logger LOG = Logger.getLogger(SMTPClient.class.getName());
-    Email email;
-    ServerInfo server;
+    final static private Logger LOG = Logger.getLogger(SMTPClient.class.getName());
+    final private Email email;
+    final private ServerInfo server;
 
     /**
      * Le constructeur de la classe SMTP client
-     * @param email     Permet l'obtention des adresses emails, entêtes, et corp de l'email.
+     * @param email     Permet l'obtention des adresses emails, entêtes et corps de l'email
      * @param server    Permet l'obtention de l'adresse IP et du numéro de port du serveur SMTP
-     *                  auquel on souhaite se connecter.
+     *                  auquel on souhaite se connecter
      */
     public SMTPClient(Email email, ServerInfo server) {
         this.email = email;
@@ -30,7 +30,7 @@ public class SMTPClient {
     }
 
     /**
-     * Envoie des emails prank à travers le protocole SMTP
+     * Envoie d'un email prank via le protocole SMTP
      */
     public void send() throws IOException {
 
@@ -68,6 +68,7 @@ public class SMTPClient {
                 line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
+
             // Récupération des informations sur les capacités du serveur.
             while (line.startsWith("250-")) {
                 line = in.readLine();
@@ -143,12 +144,14 @@ public class SMTPClient {
                 line = in.readLine();
                 throw new IOException(ERROR_MSG + line);
             }
-            // Fin de la communication.
 
+            // Fin de la communication.
             out.write("QUIT" + END_LINE);
             out.flush();
+
             // Réponse du serveur
-            line = in.readLine();
+            in.readLine();
+
             // Fermeture des buffers ainsi que de la socket.
             in.close();
             out.close();

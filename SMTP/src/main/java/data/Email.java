@@ -3,11 +3,11 @@ package data;
 import java.util.LinkedList;
 
 /**
- * Classe Mail
+ * Classe Email
  * Cette classe a pour but de stocker le contenu d'un email, l'envoyeur et les destinataires
  * @author Laetitia Guidetti
  * @author Cédric Centeno
- * Date : 25.11.2022
+ * Date : 06.12.2022
  */
 public class Email {
     private final String FAKE_EMAIL;
@@ -15,7 +15,7 @@ public class Email {
 
     /**
      * Constructeur d'Email
-     * @param fakeEmail      Le contenu du mail
+     * @param fakeEmail     Le contenu de l'email
      * @param emailGroup    Le groupe d'adresse contenant l'envoyeur et les destinataires
      */
     public Email(String fakeEmail, EmailGroup emailGroup) {
@@ -24,8 +24,8 @@ public class Email {
     }
 
     /**
-     * Permet d'obtenir le contenu du mail
-     * @return      Le contenu du mail
+     * Permet d'obtenir le contenu de l'email
+     * @return      Le contenu de l'email
      */
     public String getFakeEmail() {
         return FAKE_EMAIL;
